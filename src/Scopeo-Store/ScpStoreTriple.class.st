@@ -22,13 +22,9 @@ ScpStoreTriple class >> newFrom: aTripleArray [
 ]
 
 { #category : 'comparing' }
-ScpStoreTriple >> = aTriple [
+ScpStoreTriple >> = anObject [
 
-	self subject ~= aTriple subject ifTrue: [ ^ false ].
-	self predicate ~= aTriple predicate ifTrue: [ ^ false ].
-	self object ~= aTriple object ifTrue: [ ^ false ].		
-
-	^ true
+	^ self hash = anObject hash
 ]
 
 { #category : 'enumerating' }
@@ -56,6 +52,12 @@ ScpStoreTriple >> bind: aPattern [
 					 yourself) ].
 
 	^ variables
+]
+
+{ #category : 'comparing' }
+ScpStoreTriple >> hash [
+
+	^ self subject hash + self predicate hash + self object hash
 ]
 
 { #category : 'accessing' }

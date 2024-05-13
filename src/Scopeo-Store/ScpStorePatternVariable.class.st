@@ -33,3 +33,11 @@ ScpStorePatternVariable >> name: aName [
 
 	name := aName
 ]
+
+{ #category : 'printing' }
+ScpStorePatternVariable >> printOn: aStream [
+
+	aStream 
+		<< self name asString
+		<< '(' << self value asString << ')'
+]

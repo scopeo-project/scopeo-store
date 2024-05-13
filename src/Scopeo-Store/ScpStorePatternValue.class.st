@@ -18,3 +18,9 @@ ScpStorePatternValue >> isValue [
 
 	^ true
 ]
+
+{ #category : 'printing' }
+ScpStorePatternValue >> printOn: aStream [
+
+	aStream << self value asString
+]

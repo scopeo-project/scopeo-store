@@ -67,6 +67,15 @@ ScpStorePattern >> predicate: anObject [
 	predicate := anObject
 ]
 
+{ #category : 'printing' }
+ScpStorePattern >> printOn: aStream [
+
+	aStream 
+		<< self subject asString 
+		<< ' - ' << self predicate asString
+		<< ' - ' << self object asString
+]
+
 { #category : 'accessing' }
 ScpStorePattern >> subject [
 

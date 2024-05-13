@@ -16,12 +16,12 @@ ScpStoreOPS >> select: aPattern [
 
 	| selection |
 
-	aPattern object isVariable ifTrue: [ ^ IdentitySet empty ].
-	selection := triples at: aPattern object value ifAbsent: [ ^ IdentitySet empty ].
+	aPattern object isVariable ifTrue: [ ^ Set empty ].
+	selection := triples at: aPattern object value ifAbsent: [ ^ Set empty ].
 
 	aPattern predicate isVariable ifTrue: [
 		^ selection flatCollectAsSet: [ :a | a ] 
 	].
 	
-	^ selection at: aPattern predicate value ifAbsent: [ ^ IdentitySet empty ]
+	^ selection at: aPattern predicate value ifAbsent: [ ^ Set empty ]
 ]

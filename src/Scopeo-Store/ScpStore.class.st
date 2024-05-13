@@ -21,7 +21,7 @@ ScpStore >> initialize [
 { #category : 'accessing' }
 ScpStore >> query: aTriplePatterns [
 
-	| selections  |
+	| selections bindings results |
 
 	aTriplePatterns isEmptyOrNil ifTrue: [ ^ IdentitySet empty ].
 	selections := aTriplePatterns collect: [ :p | 
@@ -31,8 +31,35 @@ ScpStore >> query: aTriplePatterns [
 	selections ifEmpty: [ ^ IdentitySet empty ].
 	selections size = 1 ifTrue: [ ^ selections first triples ].
 
-	selections sort: [ :a :b | a triples size < b triples size ].
-	^ selections reduce: [ :a :b | a join: b ].
+	bindings := Dictionary new.
+	results := selections first triples.
+	
+	(selections first triples flatCollect: [ :t |
+		t bind: selections first pattern
+	]) do: [ :b |
+		(bindings at: b name ifAbsentPut: [ IdentitySet new ]) add: b value	
+	].
+
+	(2 to: selections size) do: [ :i |
+		| selection temp |
+		selection := selections at: i.
+		temp := selection triples select: [ :t | 
+			(t bind: selection pattern) detect: [ :b |
+				bindings at: b name 
+					ifPresent: [ :vs | vs includes: b value ] 
+					ifAbsent: [ false ]
+			] ifFound: [ true ] ifNone: [ false ] 
+		].
+		results addAll: temp.
+		temp do: [ :t | (t bind: selection pattern) do: [ :b | 
+				bindings at: b name ifAbsentPut: [ IdentitySet new ].
+				((bindings at: b name) includes: b value ) ifFalse: [ 
+					(bindings at: b name) add: b value
+				]
+		 ] ].
+	].
+
+	^ results
 	
 	
 ]

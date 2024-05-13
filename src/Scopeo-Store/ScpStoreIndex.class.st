@@ -27,7 +27,7 @@ ScpStoreIndex >> at: aFirstKey at: aSecondKey putTriple: aTriple [
 	objects := triples
 		           at: aFirstKey
 		           at: aSecondKey
-		           ifAbsentPut: [ IdentitySet empty ].
+		           ifAbsentPut: [ Set empty ].
 	objects add: aTriple
 ]
 
