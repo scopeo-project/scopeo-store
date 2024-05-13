@@ -37,7 +37,7 @@ ScpStore >> query: aTriplePatterns [
 	(selections first triples flatCollect: [ :t |
 		t bind: selections first pattern
 	]) do: [ :b |
-		(bindings at: b name ifAbsentPut: [ IdentitySet new ]) add: b value	
+		(bindings at: b name ifAbsentPut: [ Set new ]) add: b value	
 	].
 
 	(2 to: selections size) do: [ :i |
@@ -52,7 +52,7 @@ ScpStore >> query: aTriplePatterns [
 		].
 		results addAll: temp.
 		temp do: [ :t | (t bind: selection pattern) do: [ :b | 
-				bindings at: b name ifAbsentPut: [ IdentitySet new ].
+				bindings at: b name ifAbsentPut: [ Set new ].
 				((bindings at: b name) includes: b value ) ifFalse: [ 
 					(bindings at: b name) add: b value
 				]
